@@ -27,6 +27,7 @@
     "typescript": "^5",
     "@tanstack/react-query": "^5.26.3",
     "uuidv4": "^6.2.13",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "uuid": "^9.0.1"
   }
 }
