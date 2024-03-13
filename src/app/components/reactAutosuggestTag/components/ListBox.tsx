@@ -14,7 +14,7 @@ export type ListBoxRenderer = (props: ListBoxRendererProps) => JSX.Element
 
 const DefaultListBox: ListBoxRenderer = ({ children, classNames, ...listBoxProps }) => {
   return (
-    <div className={classNames.listBox} {...listBoxProps}>
+    <div className={''} {...listBoxProps}>
       {children}
     </div>
   )
@@ -26,10 +26,10 @@ export type ListBoxProps = {
 }
 
 export function ListBox({ children, render = DefaultListBox }: ListBoxProps): JSX.Element | null {
-  const { classNames, managerRef } = useContext(GlobalContext)
+  const { managerRef } = useContext(GlobalContext)
   const listBoxProps = useListBox()
 
   if (!managerRef.current.state.isExpanded || React.Children.count(children) === 0) return null
 
-  return render({ children, classNames, ...listBoxProps })
+  return render({ children, ...listBoxProps })
 }

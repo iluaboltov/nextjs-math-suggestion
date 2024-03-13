@@ -25,7 +25,7 @@ const parseFormula = (suggestStore: SuggestionStore) => {
                 const argValue = arg.valueNumber
                 if (typeof(argValue) === 'number') {
                     // @ts-ignore
-                    if(suggestStore.selected.indexOf(argValue) === 0) {
+                    if(i === 0) {
                         tempValue = argValue
                         return;
                     }
@@ -43,7 +43,7 @@ const parseFormula = (suggestStore: SuggestionStore) => {
                 }
                 else{
                     // @ts-ignore
-                    if (suggestStore.selected.indexOf(arg) !== suggestStore.selected.length - 1 && typeof(suggestStore.selected[i+1])=== 'string') {
+                    if (i !== suggestStore.selected.length - 1 && typeof(suggestStore.selected[i+1])=== 'string') {
                         const nextNumber = suggestStore.selected[i+1].valueNumber
                         if(typeof(nextNumber)=== 'string' && nextNumber.length === 1){
                             throw new Error(setErrorValue())
@@ -51,11 +51,11 @@ const parseFormula = (suggestStore: SuggestionStore) => {
                     }
                     if (argValue.length === 1) {
                         // @ts-ignore
-                        if(suggestStore.selected.indexOf(arg) === 0) {
+                        if(i === 0) {
                             throw new Error(setErrorValue())
                         }
                         // @ts-ignore
-                        if(suggestStore.selected.indexOf(arg) !== suggestStore.selected.length - 1){
+                        if(i !== suggestStore.selected.length - 1){
                             let elementNext = suggestStore.selected[i+1].valueNumber
 
                             if (OPERATORS_REGEX.test(argValue) && (typeof(elementNext) === 'number' || (typeof(elementNext) === 'string' && elementNext.length >= 3))) {
@@ -71,7 +71,7 @@ const parseFormula = (suggestStore: SuggestionStore) => {
                         const [value1, operator, value2] = argValue.split(/\s+/);
                         let combinedValue = calculateValue(operator, parseInt(value1), parseInt(value2))
                         // @ts-ignore
-                        if (suggestStore.selected.indexOf(arg) === 0) {
+                        if (i === 0) {
                             // @ts-ignore
                             tempValue = combinedValue
                             return;

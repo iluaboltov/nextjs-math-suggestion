@@ -859,7 +859,7 @@ describe('React Tags Autocomplete', () => {
         ...props
       }) => (
         <div
-          className={classNames.root}
+          className={''}
           {...props}
           title="Custom root"
           data-is-active={isActive}
@@ -878,7 +878,7 @@ describe('React Tags Autocomplete', () => {
 
     it('renders a custom label component when provided', () => {
       const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
-        <p id={id} className={classNames.label}>
+        <p id={id} className={''}>
           Custom {children}
         </p>
       )
@@ -944,7 +944,6 @@ describe('React Tags Autocomplete', () => {
       const renderer: Harness['props']['renderInput'] = ({ classNames, inputWidth, ...props }) => (
         <input
           className={classNames.input}
-          style={{ width: inputWidth }}
           title="Custom input"
           {...props}
         />

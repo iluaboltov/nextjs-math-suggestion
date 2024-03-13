@@ -30,8 +30,7 @@ export type OptionProps = React.PropsWithChildren & {
 }
 
 export function Option({ children, index, render = DefaultOption }: OptionProps): JSX.Element {
-  const { classNames } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
 
-  return render({ classNames, children, option, ...optionProps })
+  return render({ children, option, ...optionProps })
 }

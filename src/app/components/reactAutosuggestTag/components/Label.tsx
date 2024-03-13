@@ -14,7 +14,7 @@ export type LabelRenderer = (props: LabelRendererProps) => JSX.Element
 
 const DefaultLabel: LabelRenderer = ({ children, classNames, id }) => {
   return (
-    <div className={classNames.label} id={id}>
+    <div className={''} id={id}>
       {children}
     </div>
   )
@@ -27,5 +27,5 @@ export type LabelProps = {
 
 export function Label({ children, render = DefaultLabel }: LabelProps): JSX.Element {
   const { classNames, id } = useContext(GlobalContext)
-  return render({ children, classNames, id: labelId(id) })
+  return render({ children, id: labelId(id) })
 }

@@ -129,11 +129,11 @@ export function useInput({
       if (e.key === KeyNames.Backspace) return onBackspaceKey()
       // if (e.key === KeyNames.ArrowLeft) {
       //   if (e.currentTarget.selectionEnd === 0){
-      //     if (managerRef.current.selected.length !== 0) {
+      //     console.log(managerRef.current.state.activeOption)
+      //     if (managerRef.current.state.activeOption.length !== 0) {
       //       e.preventDefault()
       //
       //     }
-      //
       //   }
       // }
       // if (e.key === KeyNames.ArrowRight) {

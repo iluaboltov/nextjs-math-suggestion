@@ -11,8 +11,8 @@ type InputRendererProps = React.ComponentPropsWithoutRef<'input'> & {
 
 export type InputRenderer = (props: InputRendererProps) => JSX.Element
 
-const DefaultInput: InputRenderer = ({ classNames, inputWidth, ...inputProps }) => {
-  return <input className={classNames.input} style={{ width: inputWidth }} {...inputProps} />
+const DefaultInput: InputRenderer = ({ ...inputProps }) => {
+  return <input className={''} style={{ width: inputWidth }} {...inputProps} />
 }
 
 export type InputProps = {
@@ -34,7 +34,6 @@ export function Input({
   placeholderText,
   render = DefaultInput,
 }: InputProps): JSX.Element {
-  const { classNames } = useContext(GlobalContext)
   const { value, ...inputProps } = useInput({
     allowBackspace,
     ariaDescribedBy,
@@ -42,13 +41,11 @@ export function Input({
     delimiterKeys,
   })
   const text = value.length < placeholderText.length ? placeholderText : value
-  const { width, sizerProps } = useInputSizer({ allowResize, text })
+  const { sizerProps } = useInputSizer({ allowResize, text })
 
   return (
     <>
       {render({
-        classNames,
-        inputWidth: width,
         placeholder: placeholderText,
         value,
         ...inputProps,

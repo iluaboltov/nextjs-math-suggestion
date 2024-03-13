@@ -24,9 +24,9 @@ const DefaultRoot: RootRenderer = ({
 }) => {
   const classes = [classNames.root]
 
-  if (isActive) classes.push(classNames.rootIsActive)
-  if (isDisabled) classes.push(classNames.rootIsDisabled)
-  if (isInvalid) classes.push(classNames.rootIsInvalid)
+  // if (isActive) classes.push(classNames.rootIsActive)
+  // if (isDisabled) classes.push(classNames.rootIsDisabled)
+  // if (isInvalid) classes.push(classNames.rootIsInvalid)
 
   return (
     <div className={classes.join(' ')} {...rootProps}>
@@ -43,8 +43,8 @@ export type RootProps = {
 }
 
 export function Root({ children, onBlur, onFocus, render = DefaultRoot }: RootProps): JSX.Element {
-  const { classNames, isDisabled, isInvalid } = useContext(GlobalContext)
+  const { isDisabled, isInvalid } = useContext(GlobalContext)
   const { isActive, rootProps } = useRoot({ onBlur, onFocus })
 
-  return render({ children, classNames, isActive, isDisabled, isInvalid, ...rootProps })
+  return render({ children, isActive, isDisabled, isInvalid, ...rootProps })
 }

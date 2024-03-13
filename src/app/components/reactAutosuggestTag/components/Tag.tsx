@@ -12,10 +12,10 @@ type TagRendererProps = React.ComponentPropsWithoutRef<'button'> & {
 
 export type TagRenderer = (props: TagRendererProps) => JSX.Element
 
-const DefaultTag: TagRenderer = ({ classNames, tag, ...tagProps }) => {
+const DefaultTag: TagRenderer = ({ tag, ...tagProps }) => {
   return (
-    <button type="button" className={classNames.tag} {...tagProps}>
-      <span className={classNames.tagName}>{tag.label}</span>
+    <button type="button" className={''} {...tagProps}>
+      <span className={''}>{tag.label}</span>
     </button>
   )
 }
@@ -27,8 +27,7 @@ export type TagProps = {
 }
 
 export function Tag({ render = DefaultTag, index, title }: TagProps): JSX.Element {
-  const { classNames } = useContext(GlobalContext)
   const { tag, tagProps } = useSelectedTag(index, title)
 
-  return render({ classNames, tag, ...tagProps })
+  return render({ tag, ...tagProps })
 }

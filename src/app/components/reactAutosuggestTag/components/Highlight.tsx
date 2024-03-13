@@ -12,8 +12,8 @@ type HighlightRendererProps = {
 
 export type HighlightRenderer = React.FunctionComponent<HighlightRendererProps>
 
-const DefaultHighlight: HighlightRenderer = ({ classNames, text }) => {
-  return <mark className={classNames.highlight}>{text}</mark>
+const DefaultHighlight: HighlightRenderer = ({ text }) => {
+  return <mark className={''}>{text}</mark>
 }
 
 export type HighlightProps = {
@@ -33,7 +33,7 @@ function Highlight({ option, query, render = DefaultHighlight }: HighlightProps)
     const result = highlightText(option.label, query)
 
     if (result) {
-      const highlighted = render({ text: result[1], classNames })
+      const highlighted = render({ text: result[1] })
       return (
         <>
           {result[0]}
