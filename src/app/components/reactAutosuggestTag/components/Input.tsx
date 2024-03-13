@@ -53,7 +53,10 @@ export function Input({
         value,
         ...inputProps,
       })}
-      {allowResize ? <div {...sizerProps}>{text}</div> : null}
+      {allowResize ?
+          <div {...sizerProps}>
+            {text}
+          </div> : null}
     </>
   )
 }

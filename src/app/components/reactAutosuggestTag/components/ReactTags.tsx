@@ -199,32 +199,33 @@ function ReactTags(
     >
       <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
         <Label render={renderLabel}>{labelText}</Label>
-        <TagList label={tagListLabelText}>
-          {managerRef.current.state.selected.map((tag, index) => (
-            <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
-          ))}
-        </TagList>
-        <ComboBox>
-          <Input
-            allowBackspace={allowBackspace}
-            allowResize={allowResize}
-            ariaDescribedBy={ariaDescribedBy}
-            ariaErrorMessage={ariaErrorMessage}
-            delimiterKeys={delimiterKeys}
-            placeholderText={placeholderText}
-            render={renderInput}
-          />
-          <ListBox render={renderListBox}>
-            {managerRef.current.state.options.map((option, index) => (
-              <Option key={tagToKey(option)} index={index} render={renderOption}>
-                <Highlight
-                  option={option}
-                  query={managerRef.current.state.value}
-                  render={renderHighlight}
-                />
-              </Option>
-            ))}
-          </ListBox>
+          <TagList label={tagListLabelText}>
+              {managerRef.current.state.selected.map((tag, index) => (
+                  <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
+              ))}
+          </TagList>
+          <ComboBox>
+              <Input
+
+                allowBackspace={allowBackspace}
+                allowResize={allowResize}
+                ariaDescribedBy={ariaDescribedBy}
+                ariaErrorMessage={ariaErrorMessage}
+                delimiterKeys={delimiterKeys}
+                placeholderText={placeholderText}
+                render={renderInput}
+              />
+              <ListBox render={renderListBox}>
+                {managerRef.current.state.options.map((option, index) => (
+                  <Option key={tagToKey(option)} index={index} render={renderOption}>
+                    <Highlight
+                      option={option}
+                      query={managerRef.current.state.value}
+                      render={renderHighlight}
+                    />
+                  </Option>
+                ))}
+              </ListBox>
         </ComboBox>
         <Announcements ariaAddedText={ariaAddedText} ariaDeletedText={ariaDeletedText} />
       </Root>

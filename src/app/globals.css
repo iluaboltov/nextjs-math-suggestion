@@ -24,4 +24,19 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  @keyframes cursor-blink {
+    100% {
+      opacity: 100%;
+    }
+  }
+  .blink-animation{
+    content: '';
+    width: 1px;
+    height: 100%;
+    min-height: 10px;
+    background: #000000 !important;
+    opacity: 0  ;
+    display: inline-block;
+    animation: cursor-blink 1.5s steps(2) infinite;
+  }
 }

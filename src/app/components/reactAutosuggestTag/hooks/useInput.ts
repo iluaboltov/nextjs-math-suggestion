@@ -127,6 +127,18 @@ export function useInput({
       if (e.key === KeyNames.PageDown) return onPageDownKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
       if (e.key === KeyNames.Backspace) return onBackspaceKey()
+      // if (e.key === KeyNames.ArrowLeft) {
+      //   if (e.currentTarget.selectionEnd === 0){
+      //     if (managerRef.current.selected.length !== 0) {
+      //       e.preventDefault()
+      //
+      //     }
+      //
+      //   }
+      // }
+      // if (e.key === KeyNames.ArrowRight) {
+      //   if (e.currentTarget.selectionEnd){}
+      // }
       if (delimiterKeys.includes(e.key)) return onDelimiterKey(e)
     }
 

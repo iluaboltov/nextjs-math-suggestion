@@ -3,10 +3,11 @@ import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { useSelectedTag } from '../hooks'
 import type { ClassNames, TagSelected } from '../sharedTypes'
+import {CustomSuggestions} from "@/app/types/customSuggestions";
 
 type TagRendererProps = React.ComponentPropsWithoutRef<'button'> & {
   classNames: ClassNames
-  tag: TagSelected
+  tag: TagSelected & CustomSuggestions
 }
 
 export type TagRenderer = (props: TagRendererProps) => JSX.Element

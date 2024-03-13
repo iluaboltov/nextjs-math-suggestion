@@ -176,6 +176,7 @@ export function useManager({
     },
     onDelete(tag?: Tag) {
       tag ??= findSelectedOption(state)
+      console.log(tag, findSelectedOption(state))
       if (tag) {
         const tagIndex = findTagIndex(tag, state.selected)
         onDelete(tagIndex)

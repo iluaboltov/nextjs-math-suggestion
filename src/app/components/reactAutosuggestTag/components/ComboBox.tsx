@@ -9,7 +9,7 @@ export function ComboBox({ children }: ComboBoxProps): JSX.Element {
   const { classNames, comboBoxRef, id } = useContext(GlobalContext)
 
   return (
-    <div className={classNames.comboBox} id={comboBoxId(id)} ref={comboBoxRef}>
+    <div className={classNames.comboBox + 'drop-shadow-lg'} id={comboBoxId(id)} ref={comboBoxRef}>
       {children}
     </div>
   )

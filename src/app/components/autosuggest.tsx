@@ -1,9 +1,14 @@
 "use client"
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useFetchSuggestions} from "@/app/hooks/getAutoComplete";
 import {CustomSuggestions} from "@/app/types/customSuggestions";
 import {ReactTags} from "@/app/components/reactAutosuggestTag";
 import {useSuggestionStore} from "@/app/store/useSuggestionStore";
+import {
+    HighlightRenderer,
+    type LabelRenderer, ListBoxRenderer, OptionRenderer,
+    RootRenderer, TagRenderer
+} from "@/app/components/reactAutosuggestTag/components";
 
 
 export function FormulaSelector() {
@@ -40,36 +45,74 @@ export function FormulaSelector() {
         },
         [selected]
     )
+    const onShouldExpand = (value:string) => {
+        return value.length > 1
+    }
     const onDelete = useCallback(
         (tagIndex: number) => {
             removeSelected(tagIndex)
         },
         [selected]
     )
-    const onShouldExpand = (value:string) => {
-        return value.length > 1
-    }
     const CustomInput = ({ ...inputProps }) => {
-        return <input className={'w-full drop-shadow-lg mx-auto h-6 text-black p-4'} {...inputProps} />
+        return <input className={'flex-1 h-6 text-black p-4 m-1'} {...inputProps}/>
     }
     // @ts-ignore
-    const CustomTag = ({tag, ...tagProps }) => {
+    const CustomTag: TagRenderer = ({tag, ...tagProps }) => {
+        const [active, setActive] = useState(false)
+        const [originalValue, setOriginalValue] = useState<string>('')
+        const [customValue, setCustomValue] = useState<number>()
+        const [currentSelected, setActiveCurrentSelect] = useState(false)
+        const changeValue = (value: number) => {
+            tag.valueNumber = value;
+            return;
+        }
+        const checkValidation = (value: string) => {
+            const REGEX = /\d+/
+            if(REGEX.test(value)){
+                changeValue(parseInt(value));
+                setCustomValue(parseInt(value))
+            }
+            setActive(!active)
+        }
+        useEffect(() => {
+            if(typeof(tag.valueNumber) === 'string'){
+                setOriginalValue(tag.valueNumber)
+            }
+        }, []);
         return (
-            <button type="button" className={'flex flex-row text-black pl-2 pr-2 pb-1 pt-1 bg-[#e5e7ea] border-[1px] rounded-md hover:bg-gray-300 transition-colors ease-in-out'} {...tagProps}>
-                <span className={'text-black'}>{tag.label}</span>
+            <button type="button" className={'flex items-center justify-between relative text-gray-500 p-1 mr-1 bg-[#e5e7ea] border-[1px] rounded-md min-h-8'} {...tagProps} onClick={() => onDelete}>
+                <span className={`text-black after:blink-animation ${typeof(originalValue) === 'string' && originalValue.length > 1 ? 'mr-2' : 'mr-0'}`}>{tag.label}</span>
+                {
+                    (typeof(originalValue) === 'string' && originalValue.length > 1) ?
+                        <>
+                            <span className={'h-5 w-[1px] ml-2 mr-2 bg-gray-500 flex'}></span>
+                            <span className={'text-gray-500 hover:text-black transition-colors ease-in-out duration-200'} onClick={() =>setActive(true)}>
+                                {
+                                    active ?
+                                        <input
+                                            value={customValue}
+                                            type="text"
+                                            onBlur={(e) => {
+                                                checkValidation(e.currentTarget.value)
+                                            }}/> :
+                                        '[x]'
+                                }</span>
+                        </> :
+                        null
+                }
             </button>
         )
     }
-    // @ts-ignore
-    function CustomListBox({ children, ...listBoxProps }) {
+
+    const CustomListBox: ListBoxRenderer = ({children, ...listBoxProps}) => {
         return (
             <div className={'text-black p-2 mt-1 shadow-xl rounded-b-md'} {...listBoxProps}>
                 {children}
             </div>
         )
     }
-    // @ts-ignore
-    function CustomOption({ children, classNames, option, ...optionProps }) {
+    const CustomOption: OptionRenderer = ({ children, classNames, option, ...optionProps }) => {
         const classes = [
             classNames.option,
             option.active ? 'is-active' : '',
@@ -77,25 +120,45 @@ export function FormulaSelector() {
         ]
 
         return (
-            <div className={'hover:bg-[#a9e1ff] transition-colors ease-in-out pb-2 pt-2 pl-1 rounded-md duration-200'} {...optionProps}>
+            <div className={`hover:bg-[#a9e1ff] transition-colors ease-in-out pb-2 pt-2 pl-1 rounded-md duration-200 ${option.active ? 'bg-[#a9e1ff]' : ''}`} {...optionProps}>
                 {children}
             </div>
         )
     }
-    // @ts-ignore
-    const CustomHighlight = ({ text }) => {
+    const CustomHighlight: HighlightRenderer = ({ text }) => {
         return <span className={'text-black'}>{text}</span>
+    }
+    const CustomRoot:RootRenderer = ({ children, classNames, isActive, isDisabled, isInvalid, ...rootProps }) =>{
+        const classes = [classNames.root]
+
+        if (isActive) classes.push(classNames.rootIsActive)
+        if (isDisabled) classes.push(classNames.rootIsDisabled)
+        if (isInvalid) classes.push(classNames.rootIsInvalid)
+
+        return (
+            <div className={'flex flex-wrap relative w-full min-h-[4rem] h-auto p-4 border-[1px] text-black'} {...rootProps}>
+                {children}
+            </div>
+        )
+    }
+
+    const CustomLabel: LabelRenderer = ({ children, classNames, ...labelProps }) => {
+        return (
+            <div className={classNames.label} {...labelProps}>
+                {children}
+            </div>
+        )
     }
 
     return (
         <div className={'absolute left-1/2 top-1/2 w-1/2 h-24 bg-white rounded-md border-[1px] border-b-0 rounded-b-none -translate-x-1/2 -translate-y-[80%]'}>
             <div className={'w-full h-10 bg-[#e5e7ea] p-2'}></div>
             <div className={'w-full h-10 bg-[#f5f8fa] p-2 text-black  text-3xl'}>{suggestStore.parsedValue}</div>
-            <div className={'w-[100%] h-auto p-4 border-t-0 border-[1px]'}>
-                {
-                    fetcedData && suggestions ?
+            {
+                fetcedData && suggestions ?
+                    <div className={'w-full min-h-[4rem] h-auto border-t-0 p-4 border-[1px]'}>
                         <ReactTags
-                            labelText="Select formula"
+                            labelText=""
                             selected={selected}
                             suggestions={suggestions}
                             // @ts-ignore
@@ -111,10 +174,12 @@ export function FormulaSelector() {
                             renderListBox={CustomListBox}
                             renderHighlight={CustomHighlight}
                             renderOption={CustomOption}
-                        /> :
-                        <div>Loading...</div>
-                }
-            </div>
+                            renderRoot={CustomRoot}
+                            renderLabel={CustomLabel}
+                        />
+                    </div> :
+                    <div>Loading...</div>
+            }
         </div>
     )
 }
