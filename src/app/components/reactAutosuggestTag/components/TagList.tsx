@@ -14,7 +14,7 @@ export function TagList({ children, label }: TagListProps): JSX.Element {
   const { listRef } = useTagList()
 
   return (
-    <ul className={'flex flex-row'} aria-label={label} ref={listRef} role="list">
+    <ul className={'flex flex-row flex-wrap gap-1'} aria-label={label} ref={listRef} role="list">
       {children.map((child) => (
         <li className={classNames.tagListItem} key={child.key} role="listitem">
           {child}

@@ -82,7 +82,7 @@ export function FormulaSelector() {
         }, []);
         //after:blink-animation
         return (
-            <button type="button" className={'flex items-center justify-between relative text-gray-500 p-1 mr-1 bg-[#e5e7ea] border-[1px] rounded-md min-h-8'} {...tagProps} onClick={() => onDelete}>
+            <button type="button" className={'relative flex items-center justify-between relative text-gray-500 p-1 bg-[#e5e7ea] border-[1px] rounded-md min-h-8'} {...tagProps} onClick={() => onDelete}>
                 <span className={`text-black ${typeof(originalValue) === 'string' && originalValue.length > 1 ? 'mr-2' : 'mr-0'}`}>{tag.label}</span>
                 {
                     (typeof(originalValue) === 'string' && originalValue.length > 1) ?
@@ -108,7 +108,7 @@ export function FormulaSelector() {
 
     const CustomListBox: ListBoxRenderer = ({children, ...listBoxProps}) => {
         return (
-            <div className={'text-black p-2 mt-1 shadow-xl rounded-b-md'} {...listBoxProps}>
+            <div className={'absolute top-99 opacity-100 z-100 bg-white w-full left-0 text-black p-2 mt-1 shadow-xl rounded-b-md'} {...listBoxProps}>
                 {children}
             </div>
         )
