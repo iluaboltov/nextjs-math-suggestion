@@ -80,9 +80,10 @@ export function FormulaSelector() {
                 setOriginalValue(tag.valueNumber)
             }
         }, []);
+        //after:blink-animation
         return (
             <button type="button" className={'flex items-center justify-between relative text-gray-500 p-1 mr-1 bg-[#e5e7ea] border-[1px] rounded-md min-h-8'} {...tagProps} onClick={() => onDelete}>
-                <span className={`text-black after:blink-animation ${typeof(originalValue) === 'string' && originalValue.length > 1 ? 'mr-2' : 'mr-0'}`}>{tag.label}</span>
+                <span className={`text-black ${typeof(originalValue) === 'string' && originalValue.length > 1 ? 'mr-2' : 'mr-0'}`}>{tag.label}</span>
                 {
                     (typeof(originalValue) === 'string' && originalValue.length > 1) ?
                         <>
